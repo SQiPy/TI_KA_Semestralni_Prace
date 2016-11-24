@@ -1,20 +1,26 @@
-
     final int MIN_CUKRU = 0;
     final int CUKR_START_VAL = 3;
     final int MAX_POVOLENO_CUKRU = 5;
     final int MAX_CUKRU;
-    final int[] DRUH_K = {1,2,3};
 
-    int cukr; // defaultni hodnota cukru
-    int p_vody = 1; //cidlo_vody[0,1]
-    int teplota = 0;    //cidlo_teploty[?]
-    int poloha_kelimku = 0; // cidlo[0,1]
-    int nadrz_plna = 0;  // cidlo_hladiny[0,1]
-    int storno = 0;  // [0,1]
+    final int NAPOJ_1 = 1;
+    final int NAPOJ_2 = 2;
+    final int NAPOJ_3 = 3;
+
+    // inicializuji se pri vytvoreni podle cidla
+    int druh_k;
+    int cukr; 			// defaultni hodnota cukru
+    int p_vody = 1; 		//cidlo_vody[0,1]
+    int teplota = 0;    	//cidlo_teploty[?]
+    int poloha_kelimku = 0; 	// cidlo[0,1]
+    int nadrz_plna = 0;  	// cidlo_hladiny[0,1]
+
+    // resetuji se
     String vypis;
-    int penize; // stav vhozenych penez
-    int[] pen_vrat; //[p1,p2,p5,p10,p20,p50] pole pro vraceni
+    int penize; 		// stav vhozenych penez
+    int[] pen_vrat; 		//[p1,p2,p5,p10,p20,p50] pole pro vraceni
 
+    // zasoby automatu a cena smesi
     int p_kelimku;
     int p_cukru;
     int p_smes1;
@@ -24,9 +30,10 @@
     int p_smes3;
     int c_k3;
     // pocty korun v mincovniku
-    int p_jedna;
+    int[] p_minci;
+    /*int p_jedna;
     int p_dva;
     int p_peti;
     int p_deseti;
     int p_dvaceti;
-    int p_padesati;
+    int p_padesati;*/
