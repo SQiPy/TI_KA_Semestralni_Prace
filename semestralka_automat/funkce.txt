@@ -1,7 +1,7 @@
-31 - setMaxCukru()[defaultne 5, p_cukru < max_cukru => max_cukru = p_cukru]
-32 - zkontrolujSmesi()[true,false]
-33 - plusC()
-34 - minusC()
+31 - getMaxCukru()[defaultne 5, p_cukru < max_cukru => max_cukru = p_cukru] ------------- hotovo
+32 - zkontrolujSmesi()[true,false] ---------------------
+33 - plusC() -----------------------
+34 - minusC() ----------------------------
 35 - vhozeniMince(mince)
 36 - zkontolujVstupy()[true,false]
 37 - init_pen_vrat() // viz penize.docx

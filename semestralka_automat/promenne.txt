@@ -1,38 +1,32 @@
-max_cukru = 5, min_cukru = 0, cukr = 3
 
-p_kelimku = 20
+    final int MIN_CUKRU = 0;
+    final int CUKR_START_VAL = 3;
+    final int MAX_POVOLENO_CUKRU = 5;
+    final int MAX_CUKRU;
+    final int[] DRUH_K = {1,2,3};
 
-p_vody = cidlo_vody[0,1]
+    int cukr; // defaultni hodnota cukru
+    int p_vody = 1; //cidlo_vody[0,1]
+    int teplota = 0;    //cidlo_teploty[?]
+    int poloha_kelimku = 0; // cidlo[0,1]
+    int nadrz_plna = 0;  // cidlo_hladiny[0,1]
+    int storno = 0;  // [0,1]
+    String vypis;
+    int penize; // stav vhozenych penez
+    int[] pen_vrat; //[p1,p2,p5,p10,p20,p50] pole pro vraceni
 
-teplota = cidlo_teploty[?]
-
-poloha_kelimku = cidlo[0,1]
-
-nadrz_plna = cidlo_hladiny[0,1]
-
-vypis = String
-
-p_smes1 = 20
-c_k1 = 20
-
-p_smes2 = 15
-c_k2 = 25
-
-p_smes3 = 20
-c_k3 = 15
-
-penize = 0 // stav vhozenych penez
-druh_k = [1,2,3]
-
-// pocty korun v mincovniku
-p_jedna = 100
-p_dva = 80
-p_peti = 50
-p_deseti = 40
-p_dvaceti = 30
-p_padesati = 20
-pen_vrat = [p1,p2,p5,p10,p20,p50] // pole pro vraceni
-
-
-
-
+    int p_kelimku;
+    int p_cukru;
+    int p_smes1;
+    int c_k1;
+    int p_smes2;
+    int c_k2;
+    int p_smes3;
+    int c_k3;
+    // pocty korun v mincovniku
+    int p_jedna;
+    int p_dva;
+    int p_peti;
+    int p_deseti;
+    int p_dvaceti;
+    int p_padesati;
