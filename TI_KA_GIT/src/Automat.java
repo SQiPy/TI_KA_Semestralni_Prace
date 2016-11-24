@@ -183,14 +183,49 @@ public class Automat {
         return jeMince;
     }
 
-    public boolean zkontolujVstupy() {
-        return (
-                (druh_k == NAPOJ_1 && penize >= this.c_k1 && this.p_smes1 > 0) ||
-                (druh_k == NAPOJ_2  && penize >= this.c_k2 && this.p_smes2 > 0) ||
-                (druh_k == NAPOJ_3 && penize >= this.c_k3 && this.p_smes3 > 0)
-        );
+    /**
+     * Metoda podle zvolého nápoje zkontroluje jestli má uživatel dostatek peněz na nápoj a jestli je dostatek směsi
+     * pro zvolený nápoj
+     *
+     * @return vhodil dost peněz a směsi je dostatek = true, nedostatek směsi nebo peněz = false
+     */
+    public boolean zkontolujVstupy() { // mam zde kontrolovat i smes? bude se kontrolovat uz predtim ...
+        boolean dostatek_penez = false;
+
+        switch (druh_k) {
+            case NAPOJ_1:
+                if(penize >= this.c_k1 && this.p_smes1 > 0) {
+                    penize -= this.c_k1;
+                    dostatek_penez = true;
+                } else {
+                    System.out.println("Nedostatek penez nebo smesi pro nápoj 1");
+                }
+                break;
+            case NAPOJ_2:
+                if (penize >= this.c_k2 && this.p_smes2 > 0) {
+                    penize -= this.c_k2;
+                    dostatek_penez = true;
+                } else {
+                    System.out.println("Nedostatek penez nebo smesi pro nápoj 2");
+                }
+                break;
+            case NAPOJ_3:
+                if(penize >= this.c_k3 && this.p_smes3 > 0) {
+                    penize -= this.c_k3;
+                    dostatek_penez = true;
+                } else {
+                    System.out.println("Nedostatek penez nebo smesi pro nápoj 3");
+                }
+                break;
+        }
+        return dostatek_penez;
     }
 
+    /**
+     * Metoda spočte kolik mincí jaké hodnoty má vrátit za požadovaný nápoj
+     *
+     * @return automat má na vrácení = true, automat nemá na vrácení = false
+     */
     public boolean init_pen_vrat() {
         boolean presne = false;
         int[] druhy_minci = {1,2,5,10,20,50};
