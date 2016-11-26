@@ -1,11 +1,10 @@
-import java.util.Arrays;
-
 /**
  * Datum vytvoření: 23.11.2016.
  *
  * @author Martin Matas
  */
 public class Aplikace {
+
 
     public static void main(String[] args) {
         int p_vody = 1;
@@ -29,7 +28,11 @@ public class Aplikace {
 
         Automat a = new Automat(p_vody,teplota,poloha_kelimku,nadrz_plna,p_kelimku,p_cukru,p_smes1,c_k1,p_smes2,c_k2,p_smes3,c_k3,p_jedna,p_dva,p_peti,p_deseti,p_dvaceti,p_padesati);
 
-        a.startKA();
+        try {
+            a.startKA();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

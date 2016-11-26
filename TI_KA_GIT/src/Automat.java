@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 /**
@@ -30,6 +32,7 @@ public class Automat {
     int[] druhy_minci = {1,2,5,10,20,50};
     int[] p_minci;
     int[] pen_vrat; //[p1,p2,p5,p10,p20,p50] pole pro vraceni
+    int[] vhozene_mince;
 
     // zasoby automatu a cena smesi
     int p_kelimku;
@@ -41,12 +44,8 @@ public class Automat {
     int p_smes3;
     int c_k3;
 
-    /*int p_jedna;
-    int p_dva;
-    int p_peti;
-    int p_deseti;
-    int p_dvaceti;
-    int p_padesati;*/
+    private int vstup = -1;
+    private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public Automat(int p_vody, int teplota, int poloha_kelimku, int nadrz_plna, int p_kelimku, int p_cukru, int p_smes1, int c_k1, int p_smes2, int c_k2, int p_smes3, int c_k3, int p_jedna, int p_dva, int p_peti, int p_deseti, int p_dvaceti, int p_padesati) {
         this.MAX_CUKRU = getMaxCukru(p_cukru);
@@ -77,12 +76,12 @@ public class Automat {
         this.vypis = "";
         this.penize = 0; // stav vhozenych penez
         this.pen_vrat = new int[6];//[p1,p2,p5,p10,p20,p50] pole pro vraceni
+        this.vhozene_mince = new int[6];
     }
 
-    public void startKA() {
+    public void startKA() throws Exception {
         char stav = 'A';
         boolean smesi_skladem = false, kontrola_vstupu = false;
-        int storno = 0;
 
         System.out.println("Mincí před: " + Arrays.toString(p_minci));
         while(stav != 0) {
@@ -122,17 +121,34 @@ public class Automat {
                     }
                     break;
                 case 'F':
-                    /*
-                        TODO - nastaveni cukru, vhozeni mince = stav F
-                        TODO - kliknutim na druh kavy se spusti kontrolaVstupu()
-                     */
-                    // testovaci
-                    vhozeniMince(50);
-                    druh_k = 1;
-
-                    kontrola_vstupu = zkontolujVstupy();
-                    stav = 'G';
-                    break;
+                    do {
+                        System.out.println("Vhoďte mince: ");
+                        while (!br.ready()) {
+                            pauza(250);
+                        }
+                        vstup = Integer.parseInt(br.readLine());
+                    } while (vstup == -1);
+                    if(vstup == 51 || vstup == 52 || vstup == 53) {
+                        druh_k = vstup%50;
+                        kontrola_vstupu = zkontolujVstupy();
+                        stav = 'G';
+                        break;
+                    } else if(vstup == 60) { // plus
+                        minusC();
+                        stav = 'F';
+                        break;
+                    } else if(vstup == 61) { // plus
+                        plusC();
+                        stav = 'F';
+                        break;
+                    } else if(vstup > 0 && vstup <= 50) {
+                        vhozeniMince(vstup);
+                        stav = 'F';
+                        break;
+                    } else {
+                        stav = 'F';
+                        break;
+                    }
                 case 'G':
                     if(kontrola_vstupu) {
                         stav = 'H';
@@ -152,22 +168,37 @@ public class Automat {
                     }
                     break;
                 case 'J':
-                    if(storno == 1) {
+                    do {
+                        while (!br.ready()) {
+                            Thread.sleep(250);
+                            napoustet();
+                            if(nadrz_plna >= 100) break;
+                        }
+                        if(nadrz_plna >= 100) break;
+                        vstup = Integer.parseInt(br.readLine());
+                    } while (nadrz_plna < 100 || vstup != 0);
+                    if(vstup == 0) {
+                        storno();
                         stav = 'S';
-                    } else if(nadrz_plna < 100) {
-                        napoustet();
-                        stav = 'J';
-                    } else if(nadrz_plna >= 100) {
+                        break;
+                    } else {
                         stav = 'K';
+                        break;
                     }
-                    break;
                 case 'K':
-                    if(storno == 1) {
+                    do {
+                        while (!br.ready()) {
+                            pauza(250);
+                            ohrev();
+                            if(teplota >= 80) break;
+                        }
+                        if(teplota >= 80) break;
+                        vstup = Integer.parseInt(br.readLine());
+                    } while (nadrz_plna < 100 || vstup != 0);
+                    if(vstup == 0) {
+                        storno();
                         stav = 'S';
-                    } else if(teplota < 80) {
-                        ohrev();
-                        stav = 'K';
-                    } else if(teplota >= 80) {
+                    } else {
                         stav = 'L';
                     }
                     break;
@@ -224,7 +255,7 @@ public class Automat {
      * @param cukrSkladem - množství cukru (kostek) skladem
      * @return - maximální hranice počtu kostek cukru (max 5) podle zásob cukru
      */
-    private int getMaxCukru(int cukrSkladem) { // funkce 31
+    int getMaxCukru(int cukrSkladem) { // funkce 31
         int maxCukru = MAX_POVOLENO_CUKRU;
         if(cukrSkladem < MAX_POVOLENO_CUKRU) maxCukru = cukrSkladem;
 
@@ -238,7 +269,7 @@ public class Automat {
      * @param cukrSkladem - množství cukru (kostek} skladem
      * @return - defaultní hodnota cukru, která se nastaví pro automat a zobrazí na display
      */
-    private int getCukrStartVal(int cukrSkladem) {
+    int getCukrStartVal(int cukrSkladem) {
         int cukrDefault = CUKR_START_VAL;
         if(cukrSkladem < CUKR_START_VAL) cukrDefault = cukrSkladem;
 
@@ -266,6 +297,7 @@ public class Automat {
         if((this.cukr + 1) <= MAX_CUKRU) {
             this.cukr++;
         }
+        System.out.println("Cukr: " + cukr);
     }
 
     /**
@@ -275,6 +307,7 @@ public class Automat {
         if((this.cukr - 1) >= MIN_CUKRU) {
             this.cukr--;
         }
+        System.out.println("Cukr: " + cukr);
     }
 
     /**
@@ -290,31 +323,43 @@ public class Automat {
             case 1:
                 penize += mince;
                 p_minci[0]++;
+                vhozene_mince[0]++;
+                System.out.println("Peníze: " + penize);
                 jeMince = true;
                 break;
             case 2:
                 penize += mince;
                 p_minci[1]++;
+                vhozene_mince[1]++;
+                System.out.println("Peníze: " + penize);
                 jeMince = true;
                 break;
             case 5:
                 penize += mince;
                 p_minci[2]++;
+                vhozene_mince[2]++;
+                System.out.println("Peníze: " + penize);
                 jeMince = true;
                 break;
             case 10:
                 penize += mince;
                 p_minci[3]++;
+                vhozene_mince[3]++;
+                System.out.println("Peníze: " + penize);
                 jeMince = true;
                 break;
             case 20:
                 penize += mince;
                 p_minci[4]++;
+                vhozene_mince[4]++;
+                System.out.println("Peníze: " + penize);
                 jeMince = true;
                 break;
             case 50:
                 penize += mince;
                 p_minci[5]++;
+                vhozene_mince[5]++;
+                System.out.println("Peníze: " + penize);
                 jeMince = true;
                 break;
             default:
@@ -428,7 +473,7 @@ public class Automat {
      * Metoda ukončí prováděnou čínost automatu
      */
     public void storno() { // funkce 41
-        // TODO - skoci na vypustit vodu
+        System.arraycopy(vhozene_mince,0,pen_vrat,0,pen_vrat.length);
     }
 
     /**
@@ -512,6 +557,7 @@ public class Automat {
         nadrz_plna = 0;
 
         Arrays.fill(pen_vrat,0);
+        Arrays.fill(vhozene_mince,0);
     }
 
     /**
