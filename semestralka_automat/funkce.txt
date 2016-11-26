@@ -2,9 +2,9 @@
 32 - zkontrolujSmesi()[true,false] ---------------------
 33 - plusC() -----------------------
 34 - minusC() ----------------------------
-35 - vhozeniMince(mince)
-36 - zkontolujVstupy()[true,false]
-37 - init_pen_vrat() // viz penize.docx
+35 - vhozeniMince(mince) ----------------------------
+36 - zkontolujVstupy()[true,false] ----------------------
+37 - init_pen_vrat() // viz penize.docx -----------------------
 38 - mimoProvoz()
 39 - pauza()
 40 - napoustet()
