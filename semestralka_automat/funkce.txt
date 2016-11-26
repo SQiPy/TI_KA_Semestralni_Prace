@@ -5,29 +5,29 @@
 35 - vhozeniMince(mince) ----------------------------
 36 - zkontolujVstupy()[true,false] ----------------------
 37 - init_pen_vrat() // viz penize.docx -----------------------
-38 - mimoProvoz()
-39 - pauza()
-40 - napoustet()
-41 - storno()
-42 - ohrev()
-43 - vyhoditKelimek()
-44 - smichat()
-45 - napln()
-46 - vypustitVodu()
-47 - vratPenize() // z pole pen_vrat
-48 - reset()
-49 - p_kelimku > 0
-50 - p_kelimku = 0
-51 - p_vody = 1
-52 - p_vody = 0
-53 - zkontrolujSmesi = false
-54 - zkontrolujSmesi = true
-55 - zkontolujVstupy = false
-56 - zkontolujVstupy = true
-57 - penize = 0
-58 - nadrz_plna = 1
-59 - teplota >= 80
-60 - poloha_kelimku = 0
-61 - poloha_kelimku = 1
-62 - penize != 0
-63 - vypis()
+38 - mimoProvoz() -----------------------------------------
+39 - pauza() ------------------------------
+40 - napoustet() -------------------
+41 - storno() -------------------
+42 - ohrev() ---------------------
+43 - vyhoditKelimek() --------------------
+44 - smichat() ---------------------------
+45 - napln() -----------------------
+46 - vypustitVodu() -------------------
+47 - vratPenize() // z pole pen_vrat --------------------
+48 - reset() -----------------------
+49 - p_kelimku > 0 ----------------
+50 - p_kelimku = 0 -------------
+51 - p_vody = 1 ------------
+52 - p_vody = 0 ---------------------
+53 - zkontrolujSmesi = false ------------------
+54 - zkontrolujSmesi = true -----------------
+55 - zkontolujVstupy = false ----------------
+56 - zkontolujVstupy = true -----------------
+57 - penize = 0 ------------------ 
+58 - nadrz_plna = 100 -----------------
+59 - teplota >= 80 ------------------
+60 - poloha_kelimku = 0 -------------
+61 - poloha_kelimku = 1 --------------
+62 - penize != 0 ---------------
+63 - vypis() --------------------------

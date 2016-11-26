@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Datum vytvoření: 24.11.2016.
  *
@@ -7,23 +9,26 @@ public class Automat {
     final int MIN_CUKRU = 0;
     final int CUKR_START_VAL = 3;
     final int MAX_POVOLENO_CUKRU = 5;
-    final int MAX_CUKRU;
+    int MAX_CUKRU;
 
     final int NAPOJ_1 = 1;
     final int NAPOJ_2 = 2;
     final int NAPOJ_3 = 3;
 
     // inicializuji se pri vytvoreni podle cidla
-    int druh_k;
+    int druh_k = -1;
     int cukr; // defaultni hodnota cukru
-    int p_vody = 1; //cidlo_vody[0,1]
-    int teplota = 0;    //cidlo_teploty[?]
-    int poloha_kelimku = 0; // cidlo[0,1]
-    int nadrz_plna = 0;  // cidlo_hladiny[0,1]
+    int p_vody; //cidlo_vody[0,1]
+    int teplota;    //cidlo_teploty[?]
+    int poloha_kelimku; // cidlo[0,1]
+    int nadrz_plna;  // cidlo_hladiny[0-100]
 
     // resetuji se
     String vypis;
     int penize; // stav vhozenych penez
+
+    int[] druhy_minci = {1,2,5,10,20,50};
+    int[] p_minci;
     int[] pen_vrat; //[p1,p2,p5,p10,p20,p50] pole pro vraceni
 
     // zasoby automatu a cena smesi
@@ -35,8 +40,7 @@ public class Automat {
     int c_k2;
     int p_smes3;
     int c_k3;
-    // pocty korun v mincovniku
-    int[] p_minci;
+
     /*int p_jedna;
     int p_dva;
     int p_peti;
@@ -75,6 +79,144 @@ public class Automat {
         this.pen_vrat = new int[6];//[p1,p2,p5,p10,p20,p50] pole pro vraceni
     }
 
+    public void startKA() {
+        char stav = 'A';
+        boolean smesi_skladem = false, kontrola_vstupu = false;
+        int storno = 0;
+
+        System.out.println("Mincí před: " + Arrays.toString(p_minci));
+        while(stav != 0) {
+            System.out.println("Jsem ve stavu: " + stav);
+            switch (stav) {
+                case 'A':
+                    getMaxCukru(p_cukru);
+                    getCukrStartVal(p_cukru);
+                    stav = 'B';
+                    break;
+                case 'B':
+                    if(p_kelimku > 0) {
+                        stav = 'C';
+                    } else {
+                        mimoProvoz();
+                        stav = 'A';
+                    }
+                    break;
+                case 'C':
+                    if(p_vody == 1) {
+                        stav = 'D';
+                    } else {
+                        mimoProvoz();
+                        stav = 'A';
+                    }
+                    break;
+                case 'D':
+                    // slou by sem dat rovnou testovani na true a false
+                    smesi_skladem = zkontrolujSmesi();
+                    stav = 'E';
+                    break;
+                case 'E':
+                    if(smesi_skladem) {
+                        stav = 'F';
+                    } else {
+                        stav = 'A';
+                    }
+                    break;
+                case 'F':
+                    /*
+                        TODO - nastaveni cukru, vhozeni mince = stav F
+                        TODO - kliknutim na druh kavy se spusti kontrolaVstupu()
+                     */
+                    // testovaci
+                    vhozeniMince(50);
+                    druh_k = 1;
+
+                    kontrola_vstupu = zkontolujVstupy();
+                    stav = 'G';
+                    break;
+                case 'G':
+                    if(kontrola_vstupu) {
+                        stav = 'H';
+                    } else {
+                        stav = 'F';
+                    }
+                    break;
+                case 'H':
+                    init_pen_vrat();
+                    stav = 'I';
+                    break;
+                case 'I':
+                    if(penize == 0) {
+                        stav = 'J';
+                    } else {
+                        stav = 'R';
+                    }
+                    break;
+                case 'J':
+                    if(storno == 1) {
+                        stav = 'S';
+                    } else if(nadrz_plna < 100) {
+                        napoustet();
+                        stav = 'J';
+                    } else if(nadrz_plna >= 100) {
+                        stav = 'K';
+                    }
+                    break;
+                case 'K':
+                    if(storno == 1) {
+                        stav = 'S';
+                    } else if(teplota < 80) {
+                        ohrev();
+                        stav = 'K';
+                    } else if(teplota >= 80) {
+                        stav = 'L';
+                    }
+                    break;
+                case 'L':
+                    vyhoditKelimek();
+                    stav = 'M';
+                    break;
+                case 'M':
+                    if(poloha_kelimku == 0) {
+                        stav = 'S';
+                    } else {
+                        stav = 'N';
+                    }
+                    break;
+                case 'N':
+                    smichat();
+                    stav = 'O';
+                    break;
+                case 'O':
+                    napln();
+                    stav = 'P';
+                    break;
+                case 'P':
+                    vratPenize();
+                    stav = 'Q';
+                    break;
+                case 'Q':
+                    reset();
+                    // konec
+                    stav = 0;
+                    //stav = 'A';
+                    break;
+                case 'R':
+                    vypis("Automat nemá na vrácení");
+                    stav = 'P';
+                    break;
+                case 'S':
+                    vypustitVodu();
+                    stav = 'P';
+                    break;
+                default:
+                    stav = 0;
+                    break;
+            }
+        }
+        System.out.println("Zbytek: " + Arrays.toString(pen_vrat));
+        System.out.println("Mincí po: " + Arrays.toString(p_minci));
+    }
+
     /**
      * Při vytvoření instance se nastaví maximální možná hodnota cukru na MAX_POVOLENO_CUKRU, pokud není tolik
      * cukru na skladě, nastaví se na hodnotu cukrSkladem
@@ -82,7 +224,7 @@ public class Automat {
      * @param cukrSkladem - množství cukru (kostek) skladem
      * @return - maximální hranice počtu kostek cukru (max 5) podle zásob cukru
      */
-    private int getMaxCukru(int cukrSkladem) {
+    private int getMaxCukru(int cukrSkladem) { // funkce 31
         int maxCukru = MAX_POVOLENO_CUKRU;
         if(cukrSkladem < MAX_POVOLENO_CUKRU) maxCukru = cukrSkladem;
 
@@ -108,7 +250,7 @@ public class Automat {
      *
      * @return - směs skladem = true, směs není skladem = false
      */
-    public boolean zkontrolujSmesi() {
+    public boolean zkontrolujSmesi() { // funkce 32
         if (this.p_smes1 > 0 || this.p_smes2 > 0 || this.p_smes3 > 0) {
             return true;
         } else {
@@ -120,7 +262,7 @@ public class Automat {
     /**
      * Metoda zvětší počet kostek cukru, které se přidají do nápoje o jednu, maximálně však na hodnotu MAX_CUKRU
      */
-    public void plusC() {
+    public void plusC() { // 33
         if((this.cukr + 1) <= MAX_CUKRU) {
             this.cukr++;
         }
@@ -129,7 +271,7 @@ public class Automat {
     /**
      * Metoda zmenší počet kostek, které se přidají do nápoje o jednu, minimálně však na hodnotu MIN_CUKRU
      */
-    public void minusC() {
+    public void minusC() { // funkce 34
         if((this.cukr - 1) >= MIN_CUKRU) {
             this.cukr--;
         }
@@ -141,7 +283,7 @@ public class Automat {
      * @param mince - mince 1,2,5,10,20 nebo 50
      * @return - je to mince = true, není to mince = false
      */
-    public boolean vhozeniMince(int mince) {
+    public boolean vhozeniMince(int mince) { // funkce 35
         boolean jeMince = false;
 
         switch(mince) {
@@ -189,7 +331,7 @@ public class Automat {
      *
      * @return vhodil dost peněz a směsi je dostatek = true, nedostatek směsi nebo peněz = false
      */
-    public boolean zkontolujVstupy() { // mam zde kontrolovat i smes? bude se kontrolovat uz predtim ...
+    public boolean zkontolujVstupy() { // mam zde kontrolovat i smes? bude se kontrolovat uz predtim ... funkce 36
         boolean dostatek_penez = false;
 
         switch (druh_k) {
@@ -217,6 +359,8 @@ public class Automat {
                     System.out.println("Nedostatek penez nebo smesi pro nápoj 3");
                 }
                 break;
+            default:
+                break;
         }
         return dostatek_penez;
     }
@@ -226,9 +370,8 @@ public class Automat {
      *
      * @return automat má na vrácení = true, automat nemá na vrácení = false
      */
-    public boolean init_pen_vrat() {
+    public boolean init_pen_vrat() { // funkce 37
         boolean presne = false;
-        int[] druhy_minci = {1,2,5,10,20,50};
         int pocet;
 
         for (int i = (druhy_minci.length - 1); i >= 0 ; i--) {
@@ -241,5 +384,142 @@ public class Automat {
         if(penize == 0) presne = true;
 
         return presne;
+    }
+
+    /**
+     * Metoda vypíše informaci mimo provoz
+     */
+    public void mimoProvoz() { // funce 38
+        vypis("Mimo provoz");
+        //vypis = "";
+    }
+
+    /**
+     * Metoda přeruší program na 250 ms.
+     */
+    public void pauza() { // funkce 39
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Metoda přeruší program o počet ms
+     * @param ms - doba, po kterou se program přeruší
+     */
+    public void pauza(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Metoda napustí vodu do nádrže
+     */
+    public void napoustet() { // funkce 40
+        nadrz_plna += 10;
+    }
+
+    /**
+     * Metoda ukončí prováděnou čínost automatu
+     */
+    public void storno() { // funkce 41
+        // TODO - skoci na vypustit vodu
+    }
+
+    /**
+     * Metoda ohřeje vodu v nádrži
+     */
+    public void ohrev() { // funkce 42
+        teplota += 5;
+    }
+
+
+    /**
+     * Metoda vysune kelímek do pozice pro naplnění
+     */
+    public void vyhoditKelimek() {
+        poloha_kelimku = 1;
+        p_kelimku--;
+    }
+
+    /**
+     * Metoda spíchá požadovanou směs a cukr s vodou v nádrži
+     */
+    public void smichat() {
+        switch (druh_k) {
+            case NAPOJ_1:
+                p_smes1--;
+                p_cukru -= cukr;
+                break;
+            case NAPOJ_2:
+                p_smes2--;
+                p_cukru -= cukr;
+                break;
+            case NAPOJ_3:
+                p_smes3--;
+                p_cukru -= cukr;
+                break;
+        }
+    }
+
+    /**
+     * Metoda naplní kelímek hotovým nápojem
+     */
+    public void napln() {
+        nadrz_plna = 0;
+    }
+
+    /**
+     * Metoda vypustí nádrž s vodou
+     */
+    public void vypustitVodu() {
+        while(nadrz_plna == 0) {
+            nadrz_plna -= 10;
+        }
+    }
+
+    /**
+     * Metoda vrací zbylé peníze
+     */
+    public void vratPenize() {
+        for (int i = 0; i < pen_vrat.length; i++) {
+            if(pen_vrat[i] == 0) continue;
+            System.out.printf("Vracím %dx %d Kč\n",pen_vrat[i],druhy_minci[i]);
+            p_minci[i] -= pen_vrat[i];
+            pen_vrat[i] = 0;
+        }
+    }
+
+    /**
+     * Metoda vrátí automat do původního stavu
+     */
+    public void reset() {
+        vypis = "";
+        penize = 0;
+
+        // inicializuji se pri vytvoreni podle cidla
+        druh_k = -1;
+        MAX_CUKRU = getMaxCukru(cukr);
+        cukr = getCukrStartVal(p_cukru);
+        p_vody = 1;
+        teplota = 0;
+        poloha_kelimku = 0;
+        nadrz_plna = 0;
+
+        Arrays.fill(pen_vrat,0);
+    }
+
+    /**
+     * Metoda vypíše informaci
+     */
+    public void vypis(String zprava) {
+        vypis = zprava;
+        System.out.println(vypis);
+        //vypis = "";
     }
 }

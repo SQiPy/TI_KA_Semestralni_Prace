@@ -29,20 +29,9 @@ public class Aplikace {
 
         Automat a = new Automat(p_vody,teplota,poloha_kelimku,nadrz_plna,p_kelimku,p_cukru,p_smes1,c_k1,p_smes2,c_k2,p_smes3,c_k3,p_jedna,p_dva,p_peti,p_deseti,p_dvaceti,p_padesati);
 
-        a.vhozeniMince(50);
-        a.vhozeniMince(20);
-        a.vhozeniMince(50);
-        a.vhozeniMince(10);
-        System.out.println("Počty mincí v mincovníku: " + Arrays.toString(a.p_minci));
-        System.out.println("Kolik peněz je: " + a.penize);
-        a.druh_k = 1;
-        a.zkontolujVstupy();
-        System.out.println("Kolik je po kontrole: " + a.penize);
-        a.init_pen_vrat();
-        System.out.println("Kolik peněz zbylo: " + a.penize);
-        System.out.println("Počty mincí k vrácení: " + Arrays.toString(a.pen_vrat));
+        a.startKA();
 
     }
-    
+
     //commit
 }
