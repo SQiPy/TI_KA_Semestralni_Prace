@@ -122,12 +122,8 @@ public class Automat {
                     break;
                 case 'F':
                     do {
-<<<<<<< HEAD
                         vypis = "Automat připraven";
                         System.out.println(vypis);
-=======
-                        System.out.println("Vhoďte mince: ");
->>>>>>> origin/master
                         while (!br.ready()) {
                             pauza(250);
                         }
@@ -150,13 +146,10 @@ public class Automat {
                         vhozeniMince(vstup);
                         stav = 'F';
                         break;
-<<<<<<< HEAD
                     } else if(vstup == 88){
                         storno();
                         stav = 'S';
                         break;
-=======
->>>>>>> origin/master
                     } else {
                         stav = 'F';
                         break;
@@ -310,7 +303,6 @@ public class Automat {
         if ((this.cukr + 1) <= MAX_CUKRU) {
             this.cukr++;
         }
-<<<<<<< HEAD
         if (MAX_CUKRU == 0) {
             vypis = "Nedostatek cukru";
             System.out.println(vypis);
@@ -318,9 +310,6 @@ public class Automat {
             vypis = "Cukr: " + cukr;
             System.out.println(vypis);
         }
-=======
-        System.out.println("Cukr: " + cukr);
->>>>>>> origin/master
     }
 
     /**
@@ -330,12 +319,8 @@ public class Automat {
         if((this.cukr - 1) >= MIN_CUKRU) {
             this.cukr--;
         }
-<<<<<<< HEAD
         vypis = "Cukr: " + cukr;
         System.out.println(vypis);
-=======
-        System.out.println("Cukr: " + cukr);
->>>>>>> origin/master
     }
 
     /**
@@ -352,24 +337,16 @@ public class Automat {
                 penize += mince;
                 p_minci[0]++;
                 vhozene_mince[0]++;
-<<<<<<< HEAD
                 vypis = "Peníze: " + penize;
                 System.out.println(vypis);
-=======
-                System.out.println("Peníze: " + penize);
->>>>>>> origin/master
                 jeMince = true;
                 break;
             case 2:
                 penize += mince;
                 p_minci[1]++;
                 vhozene_mince[1]++;
-<<<<<<< HEAD
                 vypis = "Peníze: " + penize;
                 System.out.println(vypis);
-=======
-                System.out.println("Peníze: " + penize);
->>>>>>> origin/master
                 jeMince = true;
                 break;
             case 5:
@@ -383,36 +360,24 @@ public class Automat {
                 penize += mince;
                 p_minci[3]++;
                 vhozene_mince[3]++;
-<<<<<<< HEAD
                 vypis = "Peníze: " + penize;
                 System.out.println(vypis);
-=======
-                System.out.println("Peníze: " + penize);
->>>>>>> origin/master
                 jeMince = true;
                 break;
             case 20:
                 penize += mince;
                 p_minci[4]++;
                 vhozene_mince[4]++;
-<<<<<<< HEAD
                 vypis = "Peníze: " + penize;
                 System.out.println(vypis);
-=======
-                System.out.println("Peníze: " + penize);
->>>>>>> origin/master
                 jeMince = true;
                 break;
             case 50:
                 penize += mince;
                 p_minci[5]++;
                 vhozene_mince[5]++;
-<<<<<<< HEAD
                 vypis = "Peníze: " + penize;
                 System.out.println(vypis);
-=======
-                System.out.println("Peníze: " + penize);
->>>>>>> origin/master
                 jeMince = true;
                 break;
             default:
