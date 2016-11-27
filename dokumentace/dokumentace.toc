@@ -1,0 +1,9 @@
+\select@language {czech}
+\contentsline {section}{\numberline {1}Zad\IeC {\'a}n\IeC {\'\i }}{2}
+\contentsline {paragraph}{\parindent =4em}{2}
+\contentsline {paragraph}{\parindent =4em}{2}
+\contentsline {section}{\numberline {2}Teoretick\IeC {\'y} rozbor}{2}
+\contentsline {paragraph}{\parindent =4em}{2}
+\contentsline {section}{\numberline {3}Teoretick\IeC {\'e} \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{3}
+\contentsline {paragraph}{\parindent =4em}{4}
+\contentsline {paragraph}{\parindent =4em}{4}

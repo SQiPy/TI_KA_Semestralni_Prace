@@ -1,0 +1,78 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[export]{adjustbox}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{pdfpages}
+\usepackage{float}
+
+\begin{document}
+%
+%	TITLE
+%
+\begin{titlepage}
+	\includegraphics[left]{images/logo_fav}\par
+	\vspace{5cm}
+	{
+		\centering
+		\Huge{\textbf{Nápojový automat}}\\
+		\Huge{\textbf{\textit{KIV/TI - Semestrání práce}}}\\
+	}	
+	\vfill
+    \begin{tabular}{ll}
+		vypracovali: & \it{Martin Matas, Martin Formánek, Tomáš Dubina} \\
+		%studijní číslo: & A15B0089P \\
+		%email: & martinm@students.zcu.cz \\
+		datum: & {\large 27. listopadu 2016\par}
+	\end{tabular}
+\end{titlepage}
+%
+%	OBSAH
+%
+\tableofcontents
+\newpage
+%
+%	TEXT
+%
+\section{Zadání}
+
+\paragraph{\parindent=4em}{
+	Vytvořte konečný automat pro řízení nápojového automatu. Automat bude mít tři typy vstupů: stisky tlačítek, indikaci hodnoty vhozené mince a signály z různých čidel (např. "došla káva", "došly kelímky" aj.). Svými výstupy bude automat řídit motory, elektromagnety apod., které zajistí vracení mincí z mincovníku, přípravu kelímku, ohřívání vody, napouštění vody apod. Konkrétní vnitřní prvky automatu si realisticky navrhněte sami.
+}
+
+\paragraph{\parindent=4em}{	
+	Vytvořte dále aplikaci, která vhodným způsobem automat vizualizuje a umožňuje simulovat mačkání tlačítek, vhazování mincí a sledování vrácení přeplatku, rovněž by měla umožnit simulovat výjimečné stavy, např. "neteče voda" apod.
+Hlavním smyslem zadání je vyzkoušet si návrh implementace pomocí konečného automatu. Implementace proto musí striktně dodržovat princip konečně-automatového návrhu, jiné implementace budou vráceny k přepracování.
+}
+
+\section{Teoretický rozbor}
+
+\paragraph{\parindent=4em}{	
+	Nápojový automat by měl zákazníkovi umožnit vhození mincí, nastavení množství cukru a volbu nápoje. Po objednání zvoleného nápoje musí automat vrátit případný přeplatek zákazníkovi. Automat by měl mít ošetřené vstupy před vhozením nepodporovaných mincí a jiných předmětů. Měl by nabízet pouze nápoje, ke kterým má všechny potřebné přísady. Pokud by došlo k výjimečnému stavu (např. odpojení přívodu s vodou), měl by automat umožnit zákazníkovi stornovat objednávku a vrátit peníze.
+}
+
+\newpage
+\section{Teoretické řešení}
+
+\begin{figure}[H]	
+	\centering
+	\includegraphics[angle=-90,width=\textwidth]{doc/kavovar_KA.pdf}
+\end{figure}
+	
+\paragraph{\parindent=4em}{	
+	Stavy mezi H a I zajišťují převedení přeplatku na mince, které má automat k dispozici. Nejprve se testuje, jestli lze přeplatek vrátit v mincích hodnoty 50 Kč, pokud je to možné, automat spočte, kolik takových mincí může vrátit. Poté odečte částku, kterou vrátí v těchto mincích od celkového přeplatku a pokračuje mincemi hodnoty 20 Kč. Pokud automat nemůže částku vrátit v mincích hodnoty 50 Kč, přejde rovnou na mince hodnoty 20 Kč a takto pokračuje až po hodnotu 1 Kč. Pokud nastane situace, že automat dojde do stavu I a přeplatek nebude 0 Kč, automat nemá na vrácení a přejde do stavu, kdy vrátí uživateli vhozenou částku.
+}	
+
+\paragraph{\parindent=4em}{	
+	Stavy mezi P a Q zajišťují vrácení přeplatku. O to, které mince musí automat zákazníkovi vrátit se starají stavy mezi stavem H a I. Mechanismus je podobný tomu, který zjišťuje jaké mince vrátit. Nejprve automat testuje, jestli má nějaké mince hodnoty 50 Kč k vrácení, pokud ano, vrátí zákazníkovi vypočtený počet mincí této hodnoty, poté přejde na mince hodnoty 20 Kč. Když automat nemá vracet žádné mince hodnoty 50 Kč, zkusí jestli má vrátit mince hodnoty 20 Kč.
+}	
+
+\section{Implementace}
+
+
+%
+%	KONEC
+%
+\end{document}
