@@ -199,7 +199,7 @@ public class Automat {
                         }
                         if(teplota >= 80) break;
                         vstup = Integer.parseInt(br.readLine());
-                    } while (nadrz_plna < 100 || vstup != 0);
+                    } while (teplota < 80 || vstup != 0);
                     if(vstup == 0) {
                         storno();
                         stav = 'S';
