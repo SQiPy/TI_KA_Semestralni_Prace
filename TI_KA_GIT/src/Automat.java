@@ -116,7 +116,7 @@ public class Automat {
                 case 'E':
                     if(smesi_skladem) {
                         System.out.println("-------------------------------------------------------");
-                        vypis = "Automat připraven, navod k obsluze:\n 1) vhazujte mince 1, 2, 5, 10, 20, 50 Kč\n 2)Výši vhozené částky kontrolujte na displeji\n 3) Pro přidání cukru zadejte 61, pro ubrání 60\n 4) Pro zvolení nápoje [1,2 nebo 2] zadejte: 51,52 nebo 53\n 5) Pro storno zadejte 88\n 6) Po výzvě odeberte nápoj";
+                        vypis = "Automat připraven, navod k obsluze:\n 1) Vhazujte mince 1, 2, 5, 10, 20, 50 Kč\n 2) Výši vhozené částky kontrolujte na displeji\n 3) Pro přidání cukru zadejte 61, pro ubrání 60\n 4) Pro zvolení nápoje 1,2 nebo 3 zadejte: 51,52 nebo 53\n 5) Pro storno zadejte 0\n 6) Po výzvě odeberte nápoj";
                         System.out.println(vypis);
                         System.out.println("-------------------------------------------------------");
                         stav = 'F';
@@ -152,11 +152,12 @@ public class Automat {
                         vhozeniMince(vstup);
                         stav = 'F';
                         break;
-                    } else if(vstup == 88){
+                    } else if(vstup == 0){
                         storno();
                         stav = 'S';
                         break;
                     } else {
+                        System.out.println("Špatný vstup!");
                         stav = 'F';
                         break;
                     }
@@ -193,8 +194,8 @@ public class Automat {
                         } catch (NumberFormatException e) {
                             e.getMessage();
                         }
-                    } while (nadrz_plna < 100 || vstup != 88);
-                    if(vstup == 88) {
+                    } while (nadrz_plna < 100 || vstup != 0);
+                    if(vstup == 0) {
                         storno();
                         stav = 'S';
                         break;
@@ -216,8 +217,8 @@ public class Automat {
                         } catch (NumberFormatException e) {
                             e.getMessage();
                         }
-                    } while (teplota < 80 || vstup != 88);
-                    if(vstup == 88) {
+                    } while (teplota < 80 || vstup != 0);
+                    if(vstup == 0) {
                         storno();
                         stav = 'S';
                     } else {

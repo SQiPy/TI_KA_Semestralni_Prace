@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.11.15)  27 NOV 2016 12:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.11.15)  6 DEC 2016 18:07
 entering extended mode
 **./dokumentace.tex
 (dokumentace.tex
@@ -640,34 +640,65 @@ dokumentace.toc)
 \tf@toc=\write3
 \openout3 = `dokumentace.toc'.
 
- [1] [2]
-<doc/kavovar_KA.pdf, id=19, 845.0471pt x 597.51233pt>
+ [1]
+Overfull \hbox (0.71837pt too wide) in paragraph at lines 46--49
+ [] \T1/cmr/m/n/12 Vy-tvo°te dále apli-kaci, která vhod-ným zp·-so-bem si-mu-lu
+je au-to-mat a umoº-
+ []
+
+[2] <doc/kavovar_KA.pdf, id=19, 845.0471pt x 597.51233pt>
 File: doc/kavovar_KA.pdf Graphic file (type pdf)
- <use doc/kavovar_KA.pdf>
-Package pdftex.def Info: doc/kavovar_KA.pdf used on input line 61.
+
+<use doc/kavovar_KA.pdf>
+Package pdftex.def Info: doc/kavovar_KA.pdf used on input line 62.
 (pdftex.def)             Requested size: 845.04504pt x 597.51086pt.
 
-[3 <./doc/kavovar_KA.pdf>] [4] (dokumentace.aux) ) 
+Overfull \vbox (13.7144pt too high) has occurred while \output is active []
+
+
+[3 <./doc/kavovar_KA.pdf>]
+<images/tabulka_prechodovych_funkci.png, id=57, 952.30782pt x 317.68687pt>
+File: images/tabulka_prechodovych_funkci.png Graphic file (type png)
+
+<use images/tabulka_prechodovych_funkci.png>
+Package pdftex.def Info: images/tabulka_prechodovych_funkci.png used on input l
+ine 76.
+(pdftex.def)             Requested size: 390.0pt x 130.10217pt.
+ [4 <./images/tabulka_prechodovych_funkci.png>] <images/adresar.png, id=63, 433
+.62pt x 268.00125pt>
+File: images/adresar.png Graphic file (type png)
+
+<use images/adresar.png>
+Package pdftex.def Info: images/adresar.png used on input line 90.
+(pdftex.def)             Requested size: 390.0pt x 241.05167pt.
+ <images/spusteni.png, id=64, 345.54094pt x 120.45pt>
+File: images/spusteni.png Graphic file (type png)
+
+<use images/spusteni.png>
+Package pdftex.def Info: images/spusteni.png used on input line 110.
+(pdftex.def)             Requested size: 390.0pt x 135.95067pt.
+ [5 <./images/adresar.png>] [6 <./images/spusteni.png>] (dokumentace.aux) ) 
 Here is how much of TeX's memory you used:
- 5969 strings out of 493334
- 81775 string characters out of 3139251
- 159956 words of memory out of 3000000
- 9372 multiletter control sequences out of 15000+200000
- 13160 words of font info for 32 fonts, out of 3000000 for 9000
+ 5988 strings out of 493334
+ 82241 string characters out of 3139251
+ 159964 words of memory out of 3000000
+ 9387 multiletter control sequences out of 15000+200000
+ 13935 words of font info for 33 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,7n,39p,719b,290s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\nouzo\AppData\Loca
-l\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk> <C:\Users\nouzo\Ap
-pData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1728.pk> <C:\User
-s\nouzo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1440.pk
-> <C:\Users\nouzo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\e
-cti1200.pk> <C:\Users\nouzo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\e
-c\dpi600\ecrm1200.pk> <C:\Users\nouzo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\
-jknappen\ec\dpi600\ecbi2488.pk> <C:\Users\nouzo\AppData\Local\MiKTeX\2.9\fonts\
-pk\ljfour\jknappen\ec\dpi600\ecbx2488.pk>
-Output written on dokumentace.pdf (5 pages, 460949 bytes).
+ 40i,7n,39p,742b,292s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:
+\Users\nouzo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx14
+40.pk> <C:\Users\nouzo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi
+600\ecbx1200.pk> <C:\Users\nouzo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknap
+pen\ec\dpi600\ecbx1728.pk> <C:\Users\nouzo\AppData\Local\MiKTeX\2.9\fonts\pk\lj
+four\jknappen\ec\dpi600\ecrm1440.pk> <C:\Users\nouzo\AppData\Local\MiKTeX\2.9\f
+onts\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk> <C:\Users\nouzo\AppData\Local\Mi
+KTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\nouzo\AppDat
+a\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbi2488.pk> <C:\Users\no
+uzo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx2488.pk>
+Output written on dokumentace.pdf (7 pages, 527466 bytes).
 PDF statistics:
- 251 PDF objects out of 1000 (max. 8388607)
+ 348 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
