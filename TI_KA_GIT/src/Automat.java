@@ -421,7 +421,11 @@ public class Automat {
                     penize -= this.c_k1;
                     dostatek_penez = true;
                 } else {
-                    vypis = "Nedostatek penez pro nápoj 1";
+                    if(this.p_smes1 > 0) {
+                        vypis = "Nedostatek penez pro nápoj 1";
+                    } else {
+                        vypis = "Nedostatek smesi pro nápoj 1";
+                    }
                     System.out.println(vypis);
                 }
                 break;
@@ -430,7 +434,11 @@ public class Automat {
                     penize -= this.c_k2;
                     dostatek_penez = true;
                 } else {
-                    vypis = "Nedostatek penez pro nápoj 2";
+                    if(this.p_smes2 > 0) {
+                        vypis = "Nedostatek penez pro nápoj 2";
+                    } else {
+                        vypis = "Nedostatek smesi pro nápoj 2";
+                    }
                     System.out.println(vypis);
                 }
                 break;
@@ -439,7 +447,11 @@ public class Automat {
                     penize -= this.c_k3;
                     dostatek_penez = true;
                 } else {
-                    vypis = "Nedostatek penez pro nápoj 3";
+                    if(this.p_smes3 > 0) {
+                        vypis = "Nedostatek penez pro nápoj 3";
+                    } else {
+                        vypis = "Nedostatek smesi pro nápoj 3";
+                    }
                     System.out.println(vypis);
                 }
                 break;
