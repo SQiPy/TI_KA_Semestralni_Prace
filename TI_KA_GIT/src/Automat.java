@@ -83,9 +83,9 @@ public class Automat {
         char stav = 'A';
         boolean smesi_skladem = false, kontrola_vstupu = false;
 
-        System.out.println("Mincí před: " + Arrays.toString(p_minci));
+        System.out.println("Nápojový automat byl spuštěn.");
+
         while(stav != 0) {
-            System.out.println("Jsem ve stavu: " + stav);
             switch (stav) {
                 case 'A':
                     getMaxCukru(p_cukru);
@@ -115,6 +115,10 @@ public class Automat {
                     break;
                 case 'E':
                     if(smesi_skladem) {
+                        System.out.println("-------------------------------------------------------");
+                        vypis = "Automat připraven, navod k obsluze:\n 1) vhazujte mince 1, 2, 5, 10, 20, 50 Kč\n 2)Výši vhozené částky kontrolujte na displeji\n 3) Pro přidání cukru zadejte 61, pro ubrání 60\n 4) Pro zvolení nápoje [1,2 nebo 2] zadejte: 51,52 nebo 53\n 5) Pro storno zadejte 88\n 6) Po výzvě odeberte nápoj";
+                        System.out.println(vypis);
+                        System.out.println("-------------------------------------------------------");
                         stav = 'F';
                     } else {
                         stav = 'A';
@@ -122,12 +126,14 @@ public class Automat {
                     break;
                 case 'F':
                     do {
-                        vypis = "Automat připraven";
-                        System.out.println(vypis);
                         while (!br.ready()) {
-                            pauza(250);
+                            pauza();
                         }
-                        vstup = Integer.parseInt(br.readLine());
+                        try {
+                            vstup = Integer.parseInt(br.readLine());
+                        } catch (NumberFormatException e) {
+                            System.out.println("Špatný vstup!");
+                        }
                     } while (vstup == -1);
                     if(vstup == 51 || vstup == 52 || vstup == 53) {
                         druh_k = vstup%50;
@@ -167,6 +173,7 @@ public class Automat {
                     break;
                 case 'I':
                     if(penize == 0) {
+                        System.out.println("Nápoj se připravuje, vyčkejte prosím");
                         stav = 'J';
                     } else {
                         stav = 'R';
@@ -175,14 +182,19 @@ public class Automat {
                 case 'J':
                     do {
                         while (!br.ready()) {
-                            Thread.sleep(250);
+                            pauza();
                             napoustet();
                             if(nadrz_plna >= 100) break;
                         }
                         if(nadrz_plna >= 100) break;
-                        vstup = Integer.parseInt(br.readLine());
-                    } while (nadrz_plna < 100 || vstup != 0);
-                    if(vstup == 0) {
+
+                        try {
+                            vstup = Integer.parseInt(br.readLine());
+                        } catch (NumberFormatException e) {
+                            e.getMessage();
+                        }
+                    } while (nadrz_plna < 100 || vstup != 88);
+                    if(vstup == 88) {
                         storno();
                         stav = 'S';
                         break;
@@ -193,14 +205,19 @@ public class Automat {
                 case 'K':
                     do {
                         while (!br.ready()) {
-                            pauza(250);
+                            pauza();
                             ohrev();
                             if(teplota >= 80) break;
                         }
                         if(teplota >= 80) break;
-                        vstup = Integer.parseInt(br.readLine());
-                    } while (teplota < 80 || vstup != 0);
-                    if(vstup == 0) {
+
+                        try {
+                            vstup = Integer.parseInt(br.readLine());
+                        } catch (NumberFormatException e) {
+                            e.getMessage();
+                        }
+                    } while (teplota < 80 || vstup != 88);
+                    if(vstup == 88) {
                         storno();
                         stav = 'S';
                     } else {
@@ -224,6 +241,7 @@ public class Automat {
                     break;
                 case 'O':
                     napln();
+                    System.out.println("Odeberte nápoj");
                     stav = 'P';
                     break;
                 case 'P':
@@ -233,14 +251,15 @@ public class Automat {
                 case 'Q':
                     reset();
                     // konec
-                    stav = 0;
-                    //stav = 'A';
+                    //stav = 0;
+                    stav = 'A';
                     break;
                 case 'R':
                     vypis();
                     stav = 'P';
                     break;
                 case 'S':
+                    System.out.println("Stornováno");
                     vypustitVodu();
                     stav = 'P';
                     break;
@@ -249,8 +268,6 @@ public class Automat {
                     break;
             }
         }
-        System.out.println("Zbytek: " + Arrays.toString(pen_vrat));
-        System.out.println("Mincí po: " + Arrays.toString(p_minci));
     }
 
     /**
@@ -404,7 +421,7 @@ public class Automat {
                     penize -= this.c_k1;
                     dostatek_penez = true;
                 } else {
-                    vypis = "Nedostatek penez nebo smesi pro nápoj 1";
+                    vypis = "Nedostatek penez pro nápoj 1";
                     System.out.println(vypis);
                 }
                 break;
@@ -413,7 +430,7 @@ public class Automat {
                     penize -= this.c_k2;
                     dostatek_penez = true;
                 } else {
-                    vypis = "Nedostatek penez nebo smesi pro nápoj 2";
+                    vypis = "Nedostatek penez pro nápoj 2";
                     System.out.println(vypis);
                 }
                 break;
@@ -422,7 +439,7 @@ public class Automat {
                     penize -= this.c_k3;
                     dostatek_penez = true;
                 } else {
-                    vypis = "Nedostatek penez nebo smesi pro nápoj 3";
+                    vypis = "Nedostatek penez pro nápoj 3";
                     System.out.println(vypis);
                 }
                 break;
@@ -468,18 +485,6 @@ public class Automat {
     public void pauza() { // funkce 39
         try {
             Thread.sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Metoda přeruší program o počet ms
-     * @param ms - doba, po kterou se program přeruší
-     */
-    public void pauza(int ms) {
-        try {
-            Thread.sleep(ms);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
