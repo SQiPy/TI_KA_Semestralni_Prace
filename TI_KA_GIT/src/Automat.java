@@ -86,6 +86,7 @@ public class Automat {
         System.out.println("Nápojový automat byl spuštěn.");
 
         while(stav != 0) {
+            System.out.println("[Aktuální stav: " + stav + "]");
             switch (stav) {
                 case 'A':
                     getMaxCukru(p_cukru);
@@ -97,6 +98,7 @@ public class Automat {
                         stav = 'C';
                     } else {
                         mimoProvoz();
+                        System.out.println("[Nedostatek kelímků]");
                         stav = 'A';
                     }
                     break;
@@ -105,6 +107,7 @@ public class Automat {
                         stav = 'D';
                     } else {
                         mimoProvoz();
+                        System.out.println("[Automat nemá vodu]");
                         stav = 'A';
                     }
                     break;
@@ -116,11 +119,15 @@ public class Automat {
                 case 'E':
                     if(smesi_skladem) {
                         System.out.println("-------------------------------------------------------");
+                        System.out.println("Ceny nápojů:");
+                        System.out.printf("1 => %d Kč, 2 => %d Kč, 3 => %d Kč\n",c_k1,c_k2,c_k3);
+                        System.out.println("-------------------------------------------------------");
                         vypis = "Automat připraven, navod k obsluze:\n 1) Vhazujte mince 1, 2, 5, 10, 20, 50 Kč\n 2) Výši vhozené částky kontrolujte na displeji\n 3) Pro přidání cukru zadejte 61, pro ubrání 60\n 4) Pro zvolení nápoje 1,2 nebo 3 zadejte: 51,52 nebo 53\n 5) Pro storno zadejte 0\n 6) Po výzvě odeberte nápoj";
                         System.out.println(vypis);
                         System.out.println("-------------------------------------------------------");
                         stav = 'F';
                     } else {
+                        System.out.println("[Nedostatek směsí]");
                         stav = 'A';
                     }
                     break;
@@ -150,6 +157,7 @@ public class Automat {
                         break;
                     } else if(vstup > 0 && vstup <= 50) {
                         vhozeniMince(vstup);
+                        System.out.println("[Vhozené mince " + Arrays.toString(vhozene_mince) + " ]");
                         stav = 'F';
                         break;
                     } else if(vstup == 0){
@@ -170,6 +178,7 @@ public class Automat {
                     break;
                 case 'H':
                     init_pen_vrat();
+                    System.out.println("[Peníze na vrácení " + Arrays.toString(pen_vrat) + " ]");
                     stav = 'I';
                     break;
                 case 'I':
@@ -246,11 +255,15 @@ public class Automat {
                     stav = 'P';
                     break;
                 case 'P':
+                    System.out.println("[Mincovník před vrácením " + Arrays.toString(p_minci) + " ]");
                     vratPenize();
+                    System.out.println("[Mincovník po vrácení " + Arrays.toString(p_minci) + " ]");
                     stav = 'Q';
                     break;
                 case 'Q':
                     reset();
+                    System.out.printf("[p. kelímků: %d, p. cukru: %d, p. směs1: %d, p. směs2: %d, p. směs3: %d]\n", p_kelimku, p_cukru, p_smes1, p_smes2, p_smes3);
+                    System.out.println("-------------------------------------------------------");
                     // konec
                     //stav = 0;
                     stav = 'A';
@@ -325,8 +338,7 @@ public class Automat {
             vypis = "Nedostatek cukru";
             System.out.println(vypis);
         } else {
-            vypis = "Cukr: " + cukr;
-            System.out.println(vypis);
+            vypisPrubezneInfo();
         }
     }
 
@@ -337,8 +349,7 @@ public class Automat {
         if((this.cukr - 1) >= MIN_CUKRU) {
             this.cukr--;
         }
-        vypis = "Cukr: " + cukr;
-        System.out.println(vypis);
+        vypisPrubezneInfo();
     }
 
     /**
@@ -355,47 +366,42 @@ public class Automat {
                 penize += mince;
                 p_minci[0]++;
                 vhozene_mince[0]++;
-                vypis = "Peníze: " + penize;
-                System.out.println(vypis);
+                vypisPrubezneInfo();
                 jeMince = true;
                 break;
             case 2:
                 penize += mince;
                 p_minci[1]++;
                 vhozene_mince[1]++;
-                vypis = "Peníze: " + penize;
-                System.out.println(vypis);
+                vypisPrubezneInfo();
                 jeMince = true;
                 break;
             case 5:
                 penize += mince;
                 p_minci[2]++;
                 vhozene_mince[2]++;
-                System.out.println("Peníze: " + penize);
+                vypisPrubezneInfo();
                 jeMince = true;
                 break;
             case 10:
                 penize += mince;
                 p_minci[3]++;
                 vhozene_mince[3]++;
-                vypis = "Peníze: " + penize;
-                System.out.println(vypis);
+                vypisPrubezneInfo();
                 jeMince = true;
                 break;
             case 20:
                 penize += mince;
                 p_minci[4]++;
                 vhozene_mince[4]++;
-                vypis = "Peníze: " + penize;
-                System.out.println(vypis);
+                vypisPrubezneInfo();
                 jeMince = true;
                 break;
             case 50:
                 penize += mince;
                 p_minci[5]++;
                 vhozene_mince[5]++;
-                vypis = "Peníze: " + penize;
-                System.out.println(vypis);
+                vypisPrubezneInfo();
                 jeMince = true;
                 break;
             default:
@@ -405,6 +411,14 @@ public class Automat {
         }
 
         return jeMince;
+    }
+
+    /**
+     *  Vypíše na displej průběžný stav cukru a vhozenou částku.
+     */
+    private void vypisPrubezneInfo() {
+        vypis = "Peníze: " + penize + " Kč, Cukr: " + cukr;
+        System.out.println(vypis);
     }
 
     /**
@@ -521,7 +535,7 @@ public class Automat {
      * Metoda ohřeje vodu v nádrži
      */
     public void ohrev() { // funkce 42
-        teplota += 5;
+        teplota += 10;
     }
 
 
@@ -592,10 +606,11 @@ public class Automat {
         druh_k = -1;
         MAX_CUKRU = getMaxCukru(cukr);
         cukr = getCukrStartVal(p_cukru);
-        p_vody = 1;
-        teplota = 0;
+        // TODO
+        //p_vody = 1;
+        //teplota = 0;
         poloha_kelimku = 0;
-        nadrz_plna = 0;
+        //nadrz_plna = 0;
 
         Arrays.fill(pen_vrat,0);
         Arrays.fill(vhozene_mince,0);

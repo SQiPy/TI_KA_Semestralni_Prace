@@ -1,0 +1,1 @@
+p_vody storno p_kelimku p_cukru p_smesi1 p_jedna p_dva p_peti p_deseti p_dvaceti p_padesati peníze 1 peníze 2 peníze 5 peníze 10 peníze 20 peníze 50

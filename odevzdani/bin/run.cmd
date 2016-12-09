@@ -1,2 +1,0 @@
-java Aplikace %* 
-pause
